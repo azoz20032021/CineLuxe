@@ -1,0 +1,29 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import TokenWarning from './components/TokenWarning';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Movie from './pages/Movie';
+import Movies from './pages/Movies';
+import TVShows from './pages/TVShows';
+import MyList from './pages/MyList';
+import './App.css';
+
+export default function App(){
+  return (
+    <BrowserRouter>
+      <div className="app-root">
+  <Header />
+  <TokenWarning />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movie/:id" element={<Movie />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/tv-shows" element={<TVShows />} />
+          <Route path="/my-list" element={<MyList />} />
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>
+  )
+}

@@ -1,0 +1,6 @@
+.searchbar{ display:flex; align-items:center; gap:8px; position:relative }
+.searchbar input{ background:transparent; border:1px solid rgba(255,255,255,0.06); padding:8px 10px; color:#fff; border-radius:8px; min-width:180px }
+.searchbar button{ background:var(--accent); border:none; padding:8px 10px; border-radius:8px; cursor:pointer }
+.suggestions{ position:absolute; top:44px; left:0; background:#0b0b0d; border-radius:8px; border:1px solid rgba(255,255,255,0.04); list-style:none; padding:6px; margin:0; z-index:60; min-width:220px; max-width:420px }
+.suggestions li{ padding:8px 10px; color:var(--muted); cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.suggestions li:hover{ background:rgba(255,255,255,0.02); color:#fff }

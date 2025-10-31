@@ -1,0 +1,176 @@
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:40;
+  background:rgba(5,5,7,0.6);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--glass);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:12px 4%;
+  flex-wrap:wrap; /* allow header items to wrap */
+}
+.logo{
+  font-weight:800;
+  color:#fff;
+  text-decoration:none;
+  font-size:1.25rem;
+}
+.nav{
+  display:flex;
+  gap:20px;
+  align-items:center;
+  flex: 1 1 auto;
+  flex-wrap:wrap;
+}
+.nav .nav-profile { display: none; }
+.nav a{ color:rgba(255,255,255,0.88); text-decoration:none; font-weight:600 }
+.header-actions{ display:flex; align-items:center; gap:12px; flex: 0 0 auto }
+.search{ background:transparent; border:1px solid rgba(255,255,255,0.06); padding:8px 12px; color:#fff; border-radius:8px }
+.avatar{ width:36px; height:36px; border-radius:50%; background:#1f1f1f; color:#fff; border:none }
+.menu-toggle {
+  display: none;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.menu-toggle:hover {
+  transform: scale(1.1);
+}
+
+.avatar {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 70%;
+  width: 36px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.avatar:hover {
+  background: #e6b800;
+}
+
+@media (max-width: 768px) {
+  /* keep header items in a row but allow wrapping so items "wrap" onto multiple lines
+     instead of forcing a strict column layout. This makes the header more compact
+     and predictable on narrow viewports while still showing the hamburger nav. */
+  .header-inner {
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 12px;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .nav {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    background: rgba(5, 5, 7, 0.9);
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  /* hide top-level search/avatar on small screens */
+  .header-actions { display: none }
+
+  /* show the profile link inside the nav on small screens */
+  .nav .nav-profile { display: flex }
+
+  .nav.open {
+    display: flex;
+  }
+
+  /* allow actions to sit on the same line or wrap beneath when needed */
+  .header-actions {
+    margin-top: 0;
+    width: auto;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* keep wrapping behavior on very small screens as well */
+  .header-inner {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .nav a {
+    font-size: 0.9rem;
+  }
+
+  .header-actions {
+    flex-direction: row;
+    gap: 8px;
+    width: auto;
+    align-items: center;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+  }
+}

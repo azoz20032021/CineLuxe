@@ -1,0 +1,273 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+html, body {
+  width: 100%;
+  overflow-x: hidden; 
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  background-color: #000;
+  color: #fff;
+}
+
+.hero {
+  position: relative;
+  height: 85vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  padding: 0 4%;
+}
+
+.hero-overlay {
+  background: linear-gradient(to right, rgba(0,0,0,0.9) 40%, rgba(0,0,0,0.4) 100%);
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: #bbb;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  gap: 25px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.watch-now {
+  background: #f5c518;
+  color: #000;
+  padding: 5px;
+  border: 2px solid #000;
+  border-radius: 6px;
+}
+
+.watch-trailer {
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.movie-slider {
+  margin: -80px 0 40px; /* overlap hero a bit while staying within viewport */
+  position: relative;
+  z-index: 5;
+}
+
+.movie-card img {
+  border-radius: 10px;
+  width: 100%;
+  transition: transform 0.3s;
+}
+
+.movie-card img:hover {
+  transform: scale(1.1);
+}
+
+/* new app layout styles */
+.app-root{ min-height:100vh; background:linear-gradient(180deg,#050505,#101010); }
+.section{ padding:32px 48px; }
+.section h2{ color:#e6e6e6; margin:0 0 12px; font-size:1.25rem }
+.movie-row{ display:flex; gap:12px; overflow-x:auto; padding:6px 0 }
+.movie-row .movie-card{ min-width:auto; display:block; width:100% }
+
+/* allow non-snap movie rows to wrap on smaller screens */
+@media (max-width: 900px) {
+  .movie-row { flex-wrap:wrap; }
+  .movie-row .movie-card { flex: 0 0 50%; max-width: 50%; }
+}
+@media (max-width: 600px) {
+  .movie-row .movie-card { flex: 0 0 100%; max-width: 100%; }
+}
+
+.movie-row-snap{
+  display:flex;
+  gap:0; /* removed gap so slides touch */
+  overflow-x:auto;
+  padding:6px 0;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.movie-row-snap .slide{
+  scroll-snap-align:start;
+  -webkit-scroll-snap-align:start;
+  box-sizing:border-box;
+  padding:0; /* ensure no internal padding on slide wrapper */
+  display:flex;
+  justify-content:center; /* center the card inside the slide */
+}
+.movie-row-snap::-webkit-scrollbar{ height:8px }
+.movie-row-snap::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.08); border-radius:6px }
+
+/* Responsive defaults: if slidesToShow is large, ensure a reasonable min width */
+.movie-row-snap .slide > .card{ width:100%; }
+.movie-row-snap .slide > .card .poster-wrap img{ border-radius:10px }
+
+/* On very small screens, keep horizontal carousel and show ~3 slides per view
+   so users can swipe through items instead of showing a single column. */
+@media (max-width: 600px) {
+  .movie-row-snap{
+    flex-wrap: nowrap; /* keep horizontal */
+    scroll-snap-type: x mandatory;
+    gap: 6px;
+  }
+  /* three items per view on phones */
+  .movie-row-snap .slide{ flex: 0 0 33.333%; box-sizing: border-box; padding: 0 6px; }
+  .movie-row{ flex-wrap:wrap }
+}
+
+@media (max-width: 900px) and (min-width:601px) {
+  /* small tablets: two columns */
+  .movie-row-snap{ flex-wrap:wrap }
+  .movie-row-snap .slide{ flex: 0 0 50% }
+}
+
+
+.movie-detail .detail-hero{
+  /* make hero full-bleed while keeping content centered */
+  padding: 0; /* background spans full width */
+  background-size: cover;
+  background-position: center;
+}
+.detail-inner{
+  display:flex;
+  gap:30px;
+  align-items:flex-start;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 80px 4%; /* provide vertical spacing and horizontal inset */
+  box-sizing: border-box;
+}
+.detail-inner img{
+  width:260px;
+  max-width: 28%;
+  height: auto;
+  border-radius:12px;
+}
+.detail-inner .meta{ max-width:calc(100% - 300px) }
+.detail-inner .meta h1{ font-size:2.2rem; margin:0 }
+.detail-inner .meta .sub{ color:#cfcfcf; margin-top:6px }
+.detail-inner .meta .overview{ color:#bdbdbd; margin-top:18px }
+.actions{ margin-top:20px; display:flex; gap:12px }
+.btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,0.12); color:#fff; padding:10px 14px; border-radius:8px }
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .hero {
+    height: 65vh; /* slightly reduced hero height on smaller screens */
+    background-size: cover;
+    background-position: center;
+    /* move content slightly lower so title/buttons sit further down on the image */
+    align-items: flex-end;
+    padding-bottom: 8vh;
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+
+  /* On mobile keep only the title visible and make the action buttons
+     sit side-by-side and centered with slightly reduced size. */
+  .hero p { display: none; }
+
+  .buttons {
+    flex-direction: row;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  /* Target native buttons and MUI buttons rendered as button elements */
+  .buttons button, .buttons .MuiButton-root {
+    padding: 8px 12px !important;
+    font-size: 0.9rem !important;
+    min-width: 120px;
+  }
+
+  .section {
+    padding: 16px 20px;
+  }
+
+  .movie-row {
+    gap: 8px;
+  }
+
+  .movie-card {
+    min-width: 120px;
+  }
+}
+
+/* Make the overlay slightly lighter on small screens so the background image
+   shows through more clearly. */
+@media (max-width: 768px) {
+  .hero-overlay{
+    background: linear-gradient(to right, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.12) 100%);
+  }
+}
+
+/* On very small phones reduce overlay more for clarity */
+@media (max-width: 420px) {
+  .hero-overlay{
+    background: linear-gradient(to right, rgba(0,0,0,0.45) 25%, rgba(0,0,0,0.08) 100%);
+  }
+  /* nudge content a bit lower on tiny screens too */
+  .hero { padding-bottom: 6vh; align-items: flex-end }
+}
+
+/* medium screen tweaks (tablet / small laptop) */
+@media (max-width: 1024px) {
+  .home-main { padding: 0 12px }
+  .section { padding: 24px 0 }
+  .hero h1 { font-size: 2.2rem }
+  .section h2 { font-size: 1.1rem }
+}
+
+/* small phones */
+@media (max-width: 420px) {
+  .hero { height: 55vh }
+  .hero h1 { font-size: 1.6rem }
+  .card-meta .title { font-size: 0.85rem }
+  .poster-wrap { aspect-ratio: 3 / 4 }
+}
+.home-main{
+  width: 100%;
+}
+
+/* section padding scaled to viewport */
+.section{ padding:32px 0; }
+
+/* keep section headings aligned with center container */
+.section h2{ padding:0 8px }

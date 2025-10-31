@@ -1,0 +1,19 @@
+.card{ display:block; width:100%; max-width:100%; color:var(--muted); text-decoration:none; box-sizing:border-box; padding:6px }
+.poster-wrap{ width:100%; overflow:hidden; border-radius:10px; background:var(--card-bg); display:flex; align-items:center; justify-content:center; aspect-ratio: 2 / 3; min-height:120px }
+.poster-wrap img{ width:100%; height:100%; object-fit:cover; display:block }
+.card-meta{ padding:8px 0 }
+.card-meta .title{ color:#fff; font-weight:600; font-size:0.95rem; overflow:hidden; text-overflow:ellipsis; white-space:normal }
+.card-meta .meta-sub{ color:var(--muted); font-size:0.85rem; margin-top:6px }
+
+/* responsive card sizing */
+@media (min-width: 1440px) {
+	.card { max-width: 240px }
+}
+@media (max-width: 1024px) {
+	.card { max-width: 180px }
+	.poster-wrap { aspect-ratio: 2 / 3 }
+}
+@media (max-width: 600px) {
+	.card { max-width: 140px }
+	.card-meta .title { font-size: 0.85rem }
+}

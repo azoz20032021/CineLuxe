@@ -1,0 +1,12 @@
+.site-footer{ background:transparent; padding:26px 48px; border-top:1px solid rgba(255,255,255,0.03); }
+.footer-inner{ display:flex; justify-content:space-between; align-items:center; color:rgba(255,255,255,0.6) }
+.footer-inner .links{ display:flex; gap:12px }
+.footer-inner a{ color:rgba(255,255,255,0.6); text-decoration:none }
+
+/* Mobile: stack footer content and center links */
+@media (max-width: 600px) {
+	.site-footer { padding: 14px 12px; }
+	.footer-inner { flex-direction: column; gap: 8px; align-items: center; text-align: center; }
+	.footer-inner .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+	.footer-inner a { font-size: 0.95rem; }
+}
