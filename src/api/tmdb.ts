@@ -41,7 +41,11 @@ async function fetchTrending(): Promise<Movie[]> {
   const { data } = await axios.get<{ results: TmdbSummary[] }>(`${BASE}/trending/movie/week?language=en-US`, {
     headers: { Authorization: `Bearer ${TOKEN}` },
   });
-  return (data.results || []).map((r) => mapResult(r));
+  return (data.results || []).map((r) => {
+    const m = mapResult(r);
+    (m as Movie).mediaType = 'movie';
+    return m;
+  });
 }
 
 async function fetchTrendingTV(): Promise<Movie[]> {
@@ -52,7 +56,11 @@ async function fetchTrendingTV(): Promise<Movie[]> {
   const { data } = await axios.get<{ results: TmdbSummary[] }>(`${BASE}/trending/tv/week?language=en-US`, {
     headers: { Authorization: `Bearer ${TOKEN}` },
   });
-  return (data.results || []).map((r) => mapResult(r));
+  return (data.results || []).map((r) => {
+    const m = mapResult(r);
+    (m as Movie).mediaType = 'tv';
+    return m;
+  });
 }
 
 async function fetchMovie(id: string | number): Promise<Movie> {
@@ -65,7 +73,52 @@ async function fetchMovie(id: string | number): Promise<Movie> {
     params: { language: 'en-US' },
     headers: { Authorization: `Bearer ${TOKEN}` },
   });
-  return mapResult(data);
+  const mv = mapResult(data);
+  (mv as Movie).mediaType = 'movie';
+  return mv;
+}
+
+// Fetch TV details and return a Movie-like object plus seasons
+type TmdbSeason = { id?: number; name?: string; season_number?: number; episode_count?: number; air_date?: string; poster_path?: string };
+async function fetchTV(id: string | number): Promise<{ movie: Movie; seasons: TmdbSeason[] } | null> {
+  if (!TOKEN) return Promise.resolve(null);
+  try {
+    const { data } = await axios.get<{ seasons?: TmdbSeason[] }>(`${BASE}/tv/${id}`, {
+      params: { language: 'en-US' },
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    });
+  const tvMovie = mapResult(data as unknown as TmdbSummary);
+  (tvMovie as Movie).mediaType = 'tv';
+    const seasons: TmdbSeason[] = data.seasons || [];
+    return { movie: tvMovie, seasons };
+  } catch (error) {
+    console.warn('Error fetching TV details:', error);
+    return null;
+  }
+}
+
+// Fetch season details (episodes) for a TV show
+type TmdbEpisode = { id?: number; name?: string; episode_number?: number; overview?: string; air_date?: string; vote_average?: number };
+async function fetchSeason(tvId: string | number, seasonNumber: number): Promise<{ episodes: TmdbEpisode[] } | null> {
+  if (!TOKEN) return Promise.resolve(null);
+  try {
+    const { data } = await axios.get<{ episodes?: TmdbEpisode[] }>(`${BASE}/tv/${tvId}/season/${seasonNumber}`, {
+      params: { language: 'en-US' },
+      headers: { Authorization: `Bearer ${TOKEN}` }
+    });
+    const episodes: TmdbEpisode[] = (data.episodes || []).map((e) => ({
+      id: e.id,
+      name: e.name,
+      episode_number: e.episode_number,
+      overview: e.overview,
+      air_date: e.air_date,
+      vote_average: e.vote_average
+    }));
+    return { episodes };
+  } catch (error) {
+    console.warn('Error fetching season details:', error);
+    return null;
+  }
 }
 
 function mapResult(r: TmdbSummary): Movie {
@@ -83,6 +136,7 @@ function mapResult(r: TmdbSummary): Movie {
 export { fetchTrending, fetchMovie };
 export type { Movie };
 export { fetchTrendingTV };
+export { fetchTV };
 
 async function searchMovie(genre: string) {
   if (!TOKEN) return Promise.resolve([]);
@@ -157,9 +211,32 @@ async function searchMovie(genre: string) {
 
     const sorted = filtered.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
 
-    return sorted.map(r => mapResult(r));
+    return sorted.map(r => {
+      const m = mapResult(r);
+      (m as Movie).mediaType = 'movie';
+      return m;
+    });
   } catch (error) {
     console.warn('Error fetching movies:', error);
+    return [];
+  }
+}
+
+// Fetch similar movies for a given movie id
+async function fetchSimilarMovies(id: string | number): Promise<Movie[]>{
+  if(!TOKEN) return Promise.resolve([]);
+  try{
+    const { data } = await axios.get<{ results: TmdbSummary[] }>(`${BASE}/movie/${id}/similar`,{
+      params: { language: 'en-US', page: 1 },
+      headers: { Authorization: `Bearer ${TOKEN}` }
+    });
+    return (data.results || []).map(r => {
+      const m = mapResult(r);
+      (m as Movie).mediaType = 'movie';
+      return m;
+    });
+  }catch(err){
+    console.warn('Error fetching similar movies', err);
     return [];
   }
 }
@@ -270,14 +347,45 @@ async function searchTV(genre: string) {
 
     const sorted = filtered.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
 
-    return sorted.map(r => mapResult(r));
+    return sorted.map(r => {
+      const m = mapResult(r);
+      (m as Movie).mediaType = 'tv';
+      return m;
+    });
   } catch (error) {
     console.warn('Error fetching TV shows:', error);
     return [];
   }
 }
 
-export { searchMovie, searchTV, fetchGenres };
+// Multi-search across movies and TV (used for header search suggestions and results)
+async function searchMulti(query: string): Promise<Movie[]> {
+  if (!TOKEN) return Promise.resolve([]);
+  try {
+    const { data } = await axios.get(`${BASE}/search/multi`, {
+      params: { query, language: 'en-US', include_adult: false, page: 1 },
+      headers: { Authorization: `Bearer ${TOKEN}` }
+    });
+  const results: Array<Partial<TmdbSummary> & { media_type?: string }> = data.results || [];
+    const mapped: Movie[] = results
+      .filter(r => r.media_type === 'movie' || r.media_type === 'tv')
+      .map(r => {
+        const m = mapResult(r as TmdbSummary);
+        (m as Movie).mediaType = r.media_type === 'tv' ? 'tv' : 'movie';
+        return m;
+      });
+    return mapped;
+  } catch (err) {
+    console.warn('Error searchMulti:', err);
+    return [];
+  }
+}
+
+export { searchMovie, searchTV, searchMulti, fetchGenres };
+
+export { fetchSimilarMovies };
+
+export { fetchSeason };
 
 async function fetchVideos(id: string | number){
   if(!TOKEN) return Promise.resolve([]);

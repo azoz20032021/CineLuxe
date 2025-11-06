@@ -1,0 +1,51 @@
+.movie-detail .similar-movies {
+  margin-top: 40px;
+  padding: 0 4%;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+}
+
+.movie-detail .similar-movies h2 {
+  color: #e6e6e6;
+  margin: 0 0 12px;
+  padding-top: 10px;
+  font-size: 1.25rem;
+  text-align: left;
+}
+
+.seasons { margin-top: 18px; text-align: left }
+.seasons h3 { margin: 0 0 8px }
+.seasons ul { margin: 0; padding: 0 }
+.seasons li { padding: 6px 0; text-align: left }
+.seasons .btn.ghost { padding: 6px 10px; font-size: 0.9rem }
+.seasons ul li strong { color: #fff }
+
+.movie-detail .movie-row-snap {
+  margin: 0 -6px;
+}
+
+.movie-detail .movie-row-snap .slide {
+  padding: 0 6px;
+}
+
+.movie-detail .movie-row-snap .card {
+  width: 100%;
+  max-width: none;
+}
+
+.movie-detail .movie-row-snap .poster-wrap {
+  aspect-ratio: 2/3;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.movie-detail .movie-row-snap .poster-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.movie-detail .movie-row-snap .poster-wrap:hover img {
+  transform: scale(1.05);
+}

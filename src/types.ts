@@ -6,4 +6,5 @@ export interface Movie {
   overview?: string;
   poster: string;
   backdrop: string;
+  mediaType?: 'movie' | 'tv';
 }

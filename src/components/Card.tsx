@@ -11,9 +11,11 @@ export default function Card({ movie }:{ movie:Movie }){
     return () => {}
   },[movie.id])
 
+  const linkTo = movie.mediaType === 'tv' ? `/tv/${movie.id}` : `/movie/${movie.id}`;
+
   return (
     <div className="card">
-      <Link to={`/movie/${movie.id}`} aria-label={`Open ${movie.title}`}>
+      <Link to={linkTo} aria-label={`Open ${movie.title}`}>
         <div className="poster-wrap">
           <img src={poster} alt={movie.title} loading="lazy" />
         </div>

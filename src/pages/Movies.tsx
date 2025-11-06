@@ -3,7 +3,7 @@ import MovieRow from '../shared/MovieRow';
 import CategoryPills from '../components/CategoryPills';
 import { useEffect, useState } from 'react';
 import type { Movie } from '../types';
-import { fetchTrending, fetchGenres } from '../api/tmdb';
+import { fetchTrending, fetchGenres, searchMovie } from '../api/tmdb';
 import { sampleMovies } from '../data/movies';
 
 export default function Movies(){
@@ -31,17 +31,35 @@ export default function Movies(){
     load();
     return ()=>{ mounted = false }
   },[])
-
-  const visible = selected === 'All' ? movies : movies.filter(m => (m.genre || []).includes(selected));
+  // Handle category selection: call TMDB search for the selected genre so pages behave like Home
+  async function handleCategorySelect(category: string){
+    setSelected(category);
+    if(category !== 'All'){
+      setLoading(true);
+      try{
+        const results = await searchMovie(category);
+        setMovies(results.slice(0, 50));
+      }catch(err){
+        console.warn('Failed to search movies by genre', err);
+      }finally{ setLoading(false) }
+    }else{
+      setLoading(true);
+      try{
+        const data = await fetchTrending();
+        setMovies(data || sampleMovies);
+      }catch(err){ console.warn('Failed to fetch trending movies', err) }
+      finally{ setLoading(false) }
+    }
+  }
 
   return (
     <main className="home-main">
       <Hero movie={movies[0] as Movie} />
-      <CategoryPills categories={genres.length?genres:["All","Action","Drama","Sci-Fi","Thriller"]} onSelect={(c)=>setSelected(c)} />
+      <CategoryPills categories={genres.length?genres:["All","Action","Drama","Sci-Fi","Thriller"]} onSelect={handleCategorySelect} />
 
       <section className="section">
-        <h2>Trending Movies</h2>
-        {loading ? <div>Loading...</div> : <MovieRow movies={visible} useNativeCarousel slidesToShow={5} />}
+        <h2>{selected === 'All' ? 'Trending Movies' : `${selected} Movies`}</h2>
+        {loading ? <div>Loading...</div> : <MovieRow movies={movies} useNativeCarousel slidesToShow={5} />}
       </section>
     </main>
   )

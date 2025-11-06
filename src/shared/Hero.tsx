@@ -15,7 +15,7 @@ export default function Hero({ movie }:{ movie:Movie }){
         <h1>{movie.title}</h1>
         <p>{overview}</p>
         <div className="buttons">
-          <Button
+    <Button
       variant="contained"
       sx={{
         background: "linear-gradient(90deg,#b6912bc8,#ffc422c8)",
@@ -24,9 +24,9 @@ export default function Hero({ movie }:{ movie:Movie }){
           transform: "scale(1.1)",
           boxShadow: "0 0 15px #d7d7d75b",
         },
-      }}
-    >
-      <Link to={`/movie/${movie.id}`} style={{color: 'white', textDecoration: 'none'}}>View Details</Link>
+      }
+    }>
+      <Link to={movie.mediaType === 'tv' ? `/tv/${movie.id}` : `/movie/${movie.id}`} style={{color: 'white', textDecoration: 'none'}}>View Details</Link>
     </Button>
           
           <Button

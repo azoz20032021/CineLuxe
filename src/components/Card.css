@@ -14,6 +14,7 @@
 	.poster-wrap { aspect-ratio: 2 / 3 }
 }
 @media (max-width: 600px) {
+	.card-meta .title{ max-height: 40px; }
 	.card { max-width: 140px }
 	.card-meta .title { font-size: 0.85rem }
 }

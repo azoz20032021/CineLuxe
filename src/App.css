@@ -23,11 +23,16 @@ body {
   align-items: center;
   padding: 0 4%;
 }
+@media (max-width: 700px) {
+  .hero {
+    justify-content: center;
+  }
+}
 
 .hero-overlay {
   background: linear-gradient(to right, rgba(0,0,0,0.9) 40%, rgba(0,0,0,0.4) 100%);
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0; left: 0; right: 0;
 }
 
 .hero-content {
@@ -172,7 +177,6 @@ button {
 }
 .detail-inner img{
   width:260px;
-  max-width: 28%;
   height: auto;
   border-radius:12px;
 }
@@ -183,13 +187,81 @@ button {
 .actions{ margin-top:20px; display:flex; gap:12px }
 .btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,0.12); color:#fff; padding:10px 14px; border-radius:8px }
 
+/* Movie detail page mobile layout */
+@media (max-width: 768px) {
+  .movie-detail .detail-hero {
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.95)) !important;
+  }
+  
+  .detail-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 16px;
+    gap: 20px;
+  }
+  
+  .detail-inner img {
+    width: 75%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .detail-inner .meta {
+    max-width: 100%;
+  }
+  
+  .detail-inner .meta h1 {
+    font-size: 1.8rem;
+    margin: 10px 0;
+  }
+  
+  .detail-inner .meta .overview {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 16px 0;
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .actions button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .detail-inner {
+    padding: 16px 12px;
+  }
+  
+  .detail-inner img {
+    width: 85%;
+  }
+  
+  .detail-inner .meta h1 {
+    font-size: 1.5rem;
+  }
+  
+  .detail-inner .meta .overview {
+    font-size: 0.9rem;
+  }
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   .hero {
-    height: 65vh; /* slightly reduced hero height on smaller screens */
+    height: 65vh;
     background-size: cover;
     background-position: center;
-    /* move content slightly lower so title/buttons sit further down on the image */
     align-items: flex-end;
     padding-bottom: 8vh;
   }
@@ -198,8 +270,6 @@ button {
     text-align: center;
   }
 
-  /* On mobile keep only the title visible and make the action buttons
-     sit side-by-side and centered with slightly reduced size. */
   .hero p { display: none; }
 
   .buttons {
@@ -262,9 +332,9 @@ button {
   .card-meta .title { font-size: 0.85rem }
   .poster-wrap { aspect-ratio: 3 / 4 }
 }
-.home-main{
+/* .home-main{
   width: 100%;
-}
+} */
 
 /* section padding scaled to viewport */
 .section{ padding:32px 0; }

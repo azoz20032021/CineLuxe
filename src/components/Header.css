@@ -29,7 +29,7 @@
 }
 .nav .nav-profile { display: none; }
 .nav a{ color:rgba(255,255,255,0.88); text-decoration:none; font-weight:600 }
-.header-actions{ display:flex; align-items:center; gap:12px; flex: 0 0 auto }
+.header-actions{ display:flex; align-items:center; gap:12px; flex: 0 0 auto; position: relative }
 .search{ background:transparent; border:1px solid rgba(255,255,255,0.06); padding:8px 12px; color:#fff; border-radius:8px }
 .avatar{ width:36px; height:36px; border-radius:50%; background:#1f1f1f; color:#fff; border:none }
 .menu-toggle {
@@ -81,6 +81,31 @@
   background: #e6b800;
 }
 
+/* search toggle hidden by default (desktop) — shown only on small screens */
+.search-toggle{ display: none; background:none; border:none; color:#fff; font-size:1.1rem; margin-left:8px }
+
+/* Avatar dropdown menu */
+.avatar-menu{
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #0b0b0d;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 8px;
+  padding: 8px 0;
+  min-width: 160px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  z-index: 60;
+}
+.avatar-menu-item{
+  display: block;
+  padding: 8px 14px;
+  color: #fff;
+  text-decoration: none;
+  font-weight:600;
+}
+.avatar-menu-item:hover{ background: rgba(255,255,255,0.02) }
+
 @media (max-width: 768px) {
   /* keep header items in a row but allow wrapping so items "wrap" onto multiple lines
      instead of forcing a strict column layout. This makes the header more compact
@@ -91,7 +116,9 @@
     padding: 12px 12px;
     justify-content: space-between;
     gap: 12px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    position: relative; /* allow absolute centering of logo */
+    z-index: 60; /* keep header content above mobile panels */
   }
 
   .menu-toggle {
@@ -101,7 +128,9 @@
     color: #fff;
     font-size: 1.5rem;
     cursor: pointer;
+    order: 0; /* keep hamburger on the far left */
   }
+  /* mobile: search toggle will be shown (rule further below) and inline search hidden */
 
   .nav {
     display: none;
@@ -113,8 +142,56 @@
     border-radius: 8px;
   }
 
-  /* hide top-level search/avatar on small screens */
-  .header-actions { display: none }
+  /* When the hamburger opens, show the menu as an overlay below the header
+     without pushing the logo or header-actions. */
+  .nav.open {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 50; /* below header-inner but above page content */
+  }
+
+  /* show the top-level search/avatar on small screens but place it to the right */
+  .header-actions { display: flex; order: 2 }
+
+  /* center the logo visually in the header */
+  .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    order: 1;
+  }
+
+  /* mobile search panel that appears under header when toggled */
+  .mobile-search-panel{
+    display:flex;
+    gap:8px;
+    padding:8px 4%;
+    background: rgba(5,5,7,0.92);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    align-items:center;
+    z-index: 55;
+    position: absolute; /* don't affect header layout */
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 980px;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  }
+
+  /* ensure the searchbar inside the mobile panel is centered and stretches */
+  .mobile-search-panel .searchbar{ width:100%; justify-content:space-between }
+  .mobile-search-panel .searchbar input{ flex:1; min-width:0; width:100% }
+
+
+  /* hide the header inline searchbar on mobile; use mobile-search-panel instead */
+  .header-actions .searchbar{ display: none }
+  .search-toggle{ display: inline-flex }
 
   /* show the profile link inside the nav on small screens */
   .nav .nav-profile { display: flex }
@@ -170,7 +247,6 @@
   }
 
   .avatar {
-    width: 28px;
-    height: 28px;
+   background:none;
   }
 }
