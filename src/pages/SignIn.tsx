@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './SignIn.css';
 import Button from '@mui/material/Button';
-import axios from 'axios'; 
+import axios, { isAxiosError } from 'axios'; 
 
 
 const BACKEND_URL = 'http://localhost:3001'; 
@@ -41,14 +41,19 @@ export default function SignIn() {
         } 
       }
     } catch (err) {
-      const msg = err.response?.data?.error || 'PLEASE ENTER A VALID EMAIL!!';
-      setError(msg);
-      if (step === 'email') {
-          setStep('email'); 
-      }
-    } finally {
-      setLoading(false);
-    }
+  if (isAxiosError(err)) {
+  const msg = err.response?.data?.error || 'An unknown server error occurred.';
+  setError(msg);
+} else {
+  setError('An unexpected error occurred. Please try again.');
+  console.error("Unexpected error:", err);
+  }
+  if (step === 'email') {
+      setStep('email'); 
+  }
+} finally {
+  setLoading(false);
+}
   }
 
   return (
