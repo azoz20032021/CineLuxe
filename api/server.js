@@ -11,7 +11,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:3001'
+    origin: 'https://cine-luxe-delta.vercel.app/'
 }));
 app.use(express.json());
 
