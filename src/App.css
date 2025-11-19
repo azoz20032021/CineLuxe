@@ -86,7 +86,7 @@ button {
 }
 
 .movie-slider {
-  margin: -80px 0 40px; /* overlap hero a bit while staying within viewport */
+  margin: -80px 0 40px; 
   position: relative;
   z-index: 5;
 }
@@ -161,8 +161,7 @@ button {
 
 
 .movie-detail .detail-hero{
-  /* make hero full-bleed while keeping content centered */
-  padding: 0; /* background spans full width */
+  padding: 0;
   background-size: cover;
   background-position: center;
 }

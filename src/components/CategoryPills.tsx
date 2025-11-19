@@ -6,7 +6,7 @@ export default function CategoryPills({ categories, onSelect }:{ categories:stri
   const [expanded, setExpanded] = useState(false);
 
   useEffect(()=>{
-    // support older and newer DOM typings (addListener vs addEventListener)
+  
     const mq = window.matchMedia('(max-width: 768px)') as MediaQueryList & {
   addEventListener?: (type: string, listener: (e: Event) => void) => void;
   addListener?: (listener: (e: Event) => void) => void;
@@ -26,7 +26,7 @@ export default function CategoryPills({ categories, onSelect }:{ categories:stri
   },[])
 
   // On mobile show only first 5 categories plus 'All' (if present). When expanded, show all.
-  // Compute initial collapsed count so we can always show the toggle (Show more / Show less)
+
   const hasAll = categories[0] === 'All' || categories.includes('All');
   const othersCount = categories.filter(c => c !== 'All').length;
   const initialCount = hasAll ? 1 + Math.min(5, othersCount) : Math.min(5, categories.length);

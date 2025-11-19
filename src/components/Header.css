@@ -12,7 +12,7 @@
   justify-content:space-between;
   gap:16px;
   padding:12px 4%;
-  flex-wrap:wrap; /* allow header items to wrap */
+  flex-wrap:wrap;
 }
 .logo{
   font-weight:800;
@@ -81,8 +81,8 @@
   background: #e6b800;
 }
 
-/* search toggle hidden by default (desktop) — shown only on small screens */
-.search-toggle{ display: none; background:none; border:none; color:#fff; font-size:1.1rem; margin-left:8px }
+
+.search-toggle{ display: none; background:none; border:none; color:#fff; font-size:1.1rem; margin-left:8px; padding-right:0; }
 
 /* Avatar dropdown menu */
 .avatar-menu{
@@ -107,9 +107,6 @@
 .avatar-menu-item:hover{ background: rgba(255,255,255,0.02) }
 
 @media (max-width: 768px) {
-  /* keep header items in a row but allow wrapping so items "wrap" onto multiple lines
-     instead of forcing a strict column layout. This makes the header more compact
-     and predictable on narrow viewports while still showing the hamburger nav. */
   .header-inner {
     flex-direction: row;
     align-items: center;
@@ -117,8 +114,8 @@
     justify-content: space-between;
     gap: 12px;
     flex-wrap: nowrap;
-    position: relative; /* allow absolute centering of logo */
-    z-index: 60; /* keep header content above mobile panels */
+    position: relative;
+    z-index: 60;
   }
 
   .menu-toggle {
@@ -128,9 +125,9 @@
     color: #fff;
     font-size: 1.5rem;
     cursor: pointer;
-    order: 0; /* keep hamburger on the far left */
+    order: 0;
   }
-  /* mobile: search toggle will be shown (rule further below) and inline search hidden */
+
 
   .nav {
     display: none;
@@ -142,21 +139,20 @@
     border-radius: 8px;
   }
 
-  /* When the hamburger opens, show the menu as an overlay below the header
-     without pushing the logo or header-actions. */
+
   .nav.open {
     display: flex;
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    z-index: 50; /* below header-inner but above page content */
+    z-index: 50;
   }
 
-  /* show the top-level search/avatar on small screens but place it to the right */
+
   .header-actions { display: flex; order: 2 }
 
-  /* center the logo visually in the header */
+
   .logo {
     position: absolute;
     left: 50%;
@@ -165,7 +161,7 @@
     order: 1;
   }
 
-  /* mobile search panel that appears under header when toggled */
+
   .mobile-search-panel{
     display:flex;
     gap:8px;
@@ -174,7 +170,7 @@
     border-bottom: 1px solid rgba(255,255,255,0.03);
     align-items:center;
     z-index: 55;
-    position: absolute; /* don't affect header layout */
+    position: absolute;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -184,23 +180,23 @@
     box-shadow: 0 8px 30px rgba(0,0,0,0.6);
   }
 
-  /* ensure the searchbar inside the mobile panel is centered and stretches */
+
   .mobile-search-panel .searchbar{ width:100%; justify-content:space-between }
   .mobile-search-panel .searchbar input{ flex:1; min-width:0; width:100% }
 
 
-  /* hide the header inline searchbar on mobile; use mobile-search-panel instead */
+
   .header-actions .searchbar{ display: none }
   .search-toggle{ display: inline-flex }
 
-  /* show the profile link inside the nav on small screens */
+
   .nav .nav-profile { display: flex }
 
   .nav.open {
     display: flex;
   }
 
-  /* allow actions to sit on the same line or wrap beneath when needed */
+
   .header-actions {
     margin-top: 0;
     width: auto;
@@ -215,7 +211,7 @@
 }
 
 @media (max-width: 480px) {
-  /* keep wrapping behavior on very small screens as well */
+
   .header-inner {
     flex-direction: row;
     align-items: center;

@@ -59,7 +59,7 @@ export default function Header() {
             <div className="avatar-menu" role="menu">
               <Link to="/profile" className="avatar-menu-item" role="menuitem">Profile</Link>
               <Link to="/my-list" className="avatar-menu-item" role="menuitem">My List</Link>
-              <Link to="/" className="avatar-menu-item" role="menuitem">Sign in</Link>
+              <Link to="/sign-in" className="avatar-menu-item" role="menuitem">Sign in</Link>
             </div>
           )}
         </div>

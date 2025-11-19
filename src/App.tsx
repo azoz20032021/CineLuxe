@@ -8,6 +8,7 @@ import Movies from './pages/Movies';
 import TVShows from './pages/TVShows';
 import MyList from './pages/MyList';
 import SearchResults from './pages/SearchResults';
+import SignIn from './pages/SignIn';
 import './App.css';
 
 export default function App(){
@@ -24,6 +25,7 @@ export default function App(){
           <Route path="/movies" element={<Movies />} />
           <Route path="/tv-shows" element={<TVShows />} />
           <Route path="/my-list" element={<MyList />} />
+          <Route path="/sign-in" element={<SignIn />} />
         </Routes>
         <Footer />
       </div>

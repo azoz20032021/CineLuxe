@@ -96,13 +96,13 @@ export default function Movie(){
             <h1>{movie.title}</h1>
             <div className="sub">{movie.year} • {movie.genre?.join(', ')}</div>
             <p className="overview">{movie.overview}</p>
-            {/* Action buttons (placed above episodes as requested) */}
+
             <div className="actions">
               <button onClick={openTrailer} className="btn ghost">Watch Trailer</button>
               <button onClick={toggleList} className="btn">{inList ? 'Remove from My List' : 'Add to My List'}</button>
             </div>
 
-            {/* If this is a TV show, show seasons and expandable episode lists with ratings */}
+
             {isTv && seasons && seasons.length > 0 && (
               <div className="seasons">
                 <h3>Episodes / Seasons</h3>
@@ -141,7 +141,7 @@ export default function Movie(){
                           </div>
                         </div>
 
-                        {/* Episode list when expanded */}
+            
                         {expanded && (
                           <ul style={{listStyle:'none', paddingLeft:0, marginTop:10}}>
                             {eps.length === 0 && loadingSeason !== sn && <li style={{color:'var(--muted)'}}>No episode details available.</li>}
@@ -164,7 +164,7 @@ export default function Movie(){
                 </ul>
               </div>
             )}
-            {/* If this is a movie, show similar movies below */}
+
             {!isTv && similar && similar.length > 0 && (
               <div className="similar-movies">
                 <h2>Similar Movies</h2>
